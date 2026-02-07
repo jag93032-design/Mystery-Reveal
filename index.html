@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mystery Product Reveal</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="main-container">
+    <h1>SOMETHING NEW IS COMING</h1>
+    <p class="subtitle">Scratch the card below to reveal our latest innovation.</p>
+
+    <div class="teaser-wrapper">
+      <!-- Placeholder image from Unsplash for a tech gadget -->
+      <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop"
+        class="product-image" id="target-content" alt="Mystery Product" />
+
+      <canvas id="scratch-canvas"></canvas>
+
+      <div class="instruction-overlay">Drag to Scratch</div>
+    </div>
+
+    <div class="reveal-message" id="success-msg">
+      🚀 The Future is Here!
+    </div>
+
+    <button id="reset-btn" class="reset-button">Reset Reveal</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+:root {
+  --bg-color: #0f0f13;
+  --text-color: #ffffff;
+  --accent-color: #00d4ff;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.main-container {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+h1 {
+  font-weight: 800;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  letter-spacing: -0.05em;
+}
+
+p.subtitle {
+  color: #888;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.teaser-wrapper {
+  position: relative;
+  width: 500px;
+  /* Fixed size for canvas simplicity, or responsive via JS resizing */
+  height: 500px;
+  margin: 0 auto;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  background: #1a1a1a;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#scratch-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+  /* Prevent scrolling while scratching */
+  transition: opacity 0.5s ease;
+}
+
+.instruction-overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
+  border-radius: 30px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+  color: #fff;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.reveal-message {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+  font-weight: bold;
+}
+
+.reveal-message.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: translateX(-50%) scale(1);
+  }
+
+  50% {
+    transform: translateX(-50%) scale(1.05);
+  }
+
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+.instruction-overlay {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* Reset Button */
+.reset-button {
+  margin-top: 2rem;
+  background: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--glass-border);
+  padding: 10px 20px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  border-radius: 30px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  z-index: 10;
+  position: relative;
+}
+
+.reset-button:hover {
+  background: var(--glass-bg);
+  opacity: 1;
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+.reset-button:active {
+  transform: scale(0.95);
+}
