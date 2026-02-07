@@ -45,9 +45,11 @@ p.subtitle {
 
 .teaser-wrapper {
   position: relative;
-  width: 500px;
-  /* Fixed size for canvas simplicity, or responsive via JS resizing */
-  height: 500px;
+  width: 90%;
+  max-width: 500px;
+  aspect-ratio: 1 / 1;
+  /* Responsive square */
+  height: auto;
   margin: 0 auto;
   border-radius: 20px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
@@ -153,4 +155,20 @@ p.subtitle {
 
 .reset-button:active {
   transform: scale(0.95);
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2rem;
+    padding: 0 1rem;
+  }
+
+  p.subtitle {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .teaser-wrapper {
+    border-radius: 12px;
+  }
 }
