@@ -75,6 +75,8 @@ function scratch(e) {
   if (!isDrawing || revealed) return;
   e.preventDefault(); // Stop touch scrolling
 
+  playScratchSound();
+
   const pos = getPos(e);
 
   ctx.globalCompositeOperation = 'destination-out';
@@ -154,6 +156,7 @@ function completeReveal() {
   revealed = true;
   canvas.style.transition = 'opacity 0.8s ease-out';
   canvas.style.opacity = '0';
+  wrapper.classList.add('revealed');
 
   if (instruction) instruction.style.opacity = '0';
 
@@ -177,16 +180,22 @@ canvas.addEventListener('mousedown', (e) => {
   scratch(e);
 });
 canvas.addEventListener('mousemove', scratch);
-window.addEventListener('mouseup', () => isDrawing = false);
+window.addEventListener('mouseup', () => {
+  isDrawing = false;
+  stopScratchSound();
+});
 
 // Touch Events
 canvas.addEventListener('touchstart', (e) => {
-  initAudio();
+  initAudio(); // Web Audio Context for reveal sound
   isDrawing = true;
   scratch(e);
 }, { passive: false });
 canvas.addEventListener('touchmove', scratch, { passive: false });
-window.addEventListener('touchend', () => isDrawing = false);
+window.addEventListener('touchend', () => {
+  isDrawing = false;
+  stopScratchSound();
+});
 
 // Init
 window.addEventListener('load', initCanvas);
@@ -199,6 +208,26 @@ window.addEventListener('resize', () => {
 });
 
 
+/* Scratch Audio Logic */
+const scratchAudio = document.getElementById('scratch-audio');
+if (scratchAudio) {
+  scratchAudio.volume = 0.5; // Set volume to 50%
+}
+
+function playScratchSound() {
+  if (scratchAudio && scratchAudio.paused) {
+    scratchAudio.currentTime = 0;
+    scratchAudio.play().catch(e => console.log("Audio play failed (user interaction needed):", e));
+  }
+}
+
+function stopScratchSound() {
+  if (scratchAudio) {
+    scratchAudio.pause();
+    scratchAudio.currentTime = 0;
+  }
+}
+
 /* Reset Logic */
 const resetBtn = document.getElementById('reset-btn');
 
@@ -206,18 +235,19 @@ function resetReveal() {
   revealed = false;
   throttleCounter = 0;
 
+  // Reset UI elements
+  if (instruction) instruction.style.opacity = '1';
+  if (successMsg) successMsg.classList.remove('visible');
+  wrapper.classList.remove('revealed');
+
   // Reset canvas
   canvas.style.display = 'block';
   // Trigger reflow to ensure display change registers before opacity transition
   void canvas.offsetWidth;
   canvas.style.opacity = '1';
-  
+
   // Redraw the scratch layer
   initCanvas();
-
-  // Reset UI elements
-  if (instruction) instruction.style.opacity = '1';
-  if (successMsg) successMsg.classList.remove('visible');
 }
 
 if (resetBtn) {
