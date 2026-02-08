@@ -158,6 +158,11 @@ function completeReveal() {
   canvas.style.opacity = '0';
   wrapper.classList.add('revealed');
 
+  // Save result to Supabase
+  if (typeof saveRevealResult === 'function') {
+    saveRevealResult();
+  }
+
   if (instruction) instruction.style.opacity = '0';
 
   if (audioCtx && audioCtx.state === 'suspended') {
