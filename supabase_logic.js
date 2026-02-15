@@ -18,7 +18,9 @@ async function saveRevealResult() {
         if (error) {
             console.error('Error saving result:', error);
         } else {
-            console.log('Res
+            console.log('Result saved to Supabase:', data);
+        }
+    } catch (err) {
         console.error('Unexpected error:', err);
     }
 }
