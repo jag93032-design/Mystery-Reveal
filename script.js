@@ -174,6 +174,11 @@ function completeReveal() {
     canvas.style.display = 'none'; // Click-through enabled
     if (successMsg) successMsg.classList.add('visible');
 
+    // After 3 seconds, transition to the full image
+    setTimeout(() => {
+      wrapper.classList.add('full-revealed');
+    }, 3000);
+
     // Optional: Trigger confetti or other effects here
   }, 800);
 }
@@ -244,6 +249,7 @@ function resetReveal() {
   if (instruction) instruction.style.opacity = '1';
   if (successMsg) successMsg.classList.remove('visible');
   wrapper.classList.remove('revealed');
+  wrapper.classList.remove('full-revealed');
 
   // Reset canvas
   canvas.style.display = 'block';
@@ -257,4 +263,116 @@ function resetReveal() {
 
 if (resetBtn) {
   resetBtn.addEventListener('click', resetReveal);
+}
+
+/* Hotspot Interaction Logic */
+const detailView = document.getElementById('detail-view');
+const detailImg = document.getElementById('detail-img');
+const detailDesc = document.getElementById('detail-desc');
+const closeDetailBtn = document.getElementById('close-detail');
+
+const hotspots = {
+  'hotspot-front': {
+    img: './FlyingCar Front View.png',
+    text: 'FlyingCar Front View'
+  },
+  'hotspot-wheel': {
+    img: './FlyingCar Wheel2.png',
+    text: 'Future Powerful Driving Wheel'
+  },
+  'hotspot-door': {
+    img: './FiyingCar Wing.png',
+    text: 'Vertical Takeoff Wing Door'
+  }
+};
+
+function showDetail(id) {
+  const data = hotspots[id];
+  if (!data) return;
+
+  detailImg.src = data.img;
+  detailDesc.textContent = data.text;
+  detailView.classList.add('visible');
+
+  // Add subtle sound effect if audioCtx is available
+  if (audioCtx && audioCtx.state !== 'suspended') {
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    osc.frequency.value = 880;
+    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.05);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+    osc.connect(gainNode).connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.3);
+  }
+}
+
+function hideDetail() {
+  detailView.classList.remove('visible');
+}
+
+document.querySelectorAll('.hotspot').forEach(btn => {
+  btn.addEventListener('click', () => showDetail(btn.id));
+  btn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    showDetail(btn.id);
+  });
+});
+
+if (closeDetailBtn) {
+  closeDetailBtn.addEventListener('click', hideDetail);
+}
+
+// Ensure detail view is hidden on reset
+const originalResetReveal = resetReveal;
+resetReveal = function () {
+  originalResetReveal();
+  hideDetail();
+};
+
+// Inquiry Form Handling
+const inquiryForm = document.getElementById('inquiry-form');
+const formStatus = document.getElementById('form-status');
+const submitBtn = document.getElementById('submit-btn');
+
+if (inquiryForm) {
+  inquiryForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Disable button and show loading state
+    submitBtn.disabled = true;
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.textContent = '제출 중...';
+    formStatus.textContent = '';
+    formStatus.className = 'form-status';
+
+    const formData = {
+      name: document.getElementById('user-name').value,
+      email: document.getElementById('user-email').value,
+      phone: document.getElementById('user-phone').value,
+      message: document.getElementById('user-message').value
+    };
+
+    if (typeof saveInquiry === 'function') {
+      const result = await saveInquiry(formData);
+
+      if (result.success) {
+        formStatus.textContent = '상담 신청이 완료되었습니다. 감사합니다!';
+        formStatus.classList.add('success');
+        inquiryForm.reset();
+      } else {
+        formStatus.textContent = '오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+        formStatus.classList.add('error');
+      }
+    } else {
+      console.error('saveInquiry function not found');
+      formStatus.textContent = '시스템 설정 오류입니다. 관리자에게 문의하세요.';
+      formStatus.classList.add('error');
+    }
+
+    // Restore button
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalBtnText;
+  });
 }

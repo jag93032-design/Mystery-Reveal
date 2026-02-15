@@ -22,11 +22,29 @@
       <!-- Audio for scratching effect (placeholder source) -->
       <audio id="scratch-audio" src="assets/scratch.mp3" loop></audio>
 
-      <!-- Placeholder image from Unsplash for a tech gadget -->
-      <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop"
-        class="product-image" id="target-content" alt="Mystery Product" />
+      <!-- Hidden Image (New Concept) -->
+      <img src="./flyingCar.png" class="product-image" id="target-content" alt="Alef Flying Car" />
+      <img src="./FiyingCar Full Image.png" class="product-image full-image" id="full-content"
+        alt="Alef Flying Car Full" />
 
-      <h2 class="product-name">Ultra Vision X1</h2>
+      <h2 class="product-name">Flying Car in Space</h2>
+      <p class="learn-more-text">Touch any part of the image to learn more</p>
+
+      <!-- Hotspots (Interactive zones) -->
+      <div class="hotspot-container">
+        <button class="hotspot" id="hotspot-front" title="Front View"></button>
+        <button class="hotspot" id="hotspot-wheel" title="Wheel Detail"></button>
+        <button class="hotspot" id="hotspot-door" title="Wing Door"></button>
+      </div>
+
+      <!-- Detail View Overlay -->
+      <div id="detail-view" class="detail-view">
+        <img id="detail-img" src="" alt="Detail">
+        <div class="detail-info">
+          <p id="detail-desc"></p>
+        </div>
+        <button id="close-detail" class="close-detail">Back</button>
+      </div>
 
       <canvas id="scratch-canvas"></canvas>
 
@@ -38,6 +56,38 @@
     </div>
 
     <button id="reset-btn" class="reset-button">Reset Reveal</button>
+
+    <div class="form-container">
+      <div class="form-card">
+        <h2>Flying Car In Space 사전 예약 문의</h2>
+        <p class="form-description">미래를 먼저 경험하세요. 전문가가 곧 연락드리겠습니다.</p>
+
+        <form id="inquiry-form">
+          <div class="input-group">
+            <label for="user-name">이름</label>
+            <input type="text" id="user-name" placeholder="홍길동" required>
+          </div>
+
+          <div class="input-group">
+            <label for="user-email">이메일</label>
+            <input type="email" id="user-email" placeholder="example@email.com" required>
+          </div>
+
+          <div class="input-group">
+            <label for="user-phone">연락처</label>
+            <input type="tel" id="user-phone" placeholder="010-1234-5678" required>
+          </div>
+
+          <div class="input-group">
+            <label for="user-message">문의사항</label>
+            <textarea id="user-message" rows="4" placeholder="궁금하신 내용을 입력해주세요." required></textarea>
+          </div>
+
+          <button type="submit" id="submit-btn" class="submit-button">상담 신청하기</button>
+        </form>
+        <div id="form-status" class="form-status"></div>
+      </div>
+    </div>
   </div>
 
   <script src="supabase_logic.js"></script>
