@@ -273,15 +273,15 @@ const closeDetailBtn = document.getElementById('close-detail');
 
 const hotspots = {
   'hotspot-front': {
-    img: './FlyingCar Front View.png',
+    img: 'https://hzbmsntdjzalfqzugyln.supabase.co/storage/v1/object/public/assets/FlyingCar%20Front%20View.png',
     text: 'FlyingCar Front View'
   },
   'hotspot-wheel': {
-    img: './FlyingCar Wheel2.png',
+    img: 'https://hzbmsntdjzalfqzugyln.supabase.co/storage/v1/object/public/assets/FlyingCar%20Wheel2.png',
     text: 'Future Powerful Driving Wheel'
   },
   'hotspot-door': {
-    img: './FiyingCar Wing.png',
+    img: 'https://hzbmsntdjzalfqzugyln.supabase.co/storage/v1/object/public/assets/FiyingCar%20Wing.png',
     text: 'Vertical Takeoff Wing Door'
   }
 };
